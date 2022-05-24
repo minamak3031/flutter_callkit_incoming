@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.content.SharedPreferences
 
 class TransparentActivity : Activity() {
 
@@ -41,6 +42,9 @@ class TransparentActivity : Activity() {
         when (intent.getStringExtra("type")) {
             "ACCEPT" -> {
                 val data = intent.getBundleExtra("data")
+                val map: HashMap<String, Any?> = data?.getSerializable("EXTRA_CALLKIT_EXTRA") as HashMap<String, Any?>
+                val prefs: SharedPreferences = getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+                prefs.edit().putString("flutter.case_id", map["case_id"] as String).commit()
                 val acceptIntent = CallkitIncomingBroadcastReceiver.getIntentAccept(this@TransparentActivity, data)
                 sendBroadcast(acceptIntent)
             }

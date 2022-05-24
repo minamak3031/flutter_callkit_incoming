@@ -2,6 +2,7 @@ package com.hiennv.flutter_callkit_incoming
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.SharedPreferences
 import android.app.KeyguardManager
 import android.app.KeyguardManager.KeyguardLock
 import android.app.PendingIntent
@@ -273,6 +274,10 @@ class CallkitIncomingActivity : Activity() {
 
     private fun onAcceptClick() {
         val data = intent.extras?.getBundle(EXTRA_CALLKIT_INCOMING_DATA)
+        val map: HashMap<String, Any?> = data?.getSerializable("EXTRA_CALLKIT_EXTRA") as HashMap<String, Any?>
+        val prefs: SharedPreferences = getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+        prefs.edit().putString("flutter.case_id", map["case_id"] as String).commit()
+        
         val intent = packageManager.getLaunchIntentForPackage(packageName)?.cloneFilter()
         if (isTaskRoot) {
             intent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

@@ -3,7 +3,7 @@
 # Run `pod lib lint flutter_callkit_incoming.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'flutter_callkit_incoming'
+  s.name             = 'flutter_callkit_incoming_fix'
   s.version          = '0.0.1'
   s.summary          = 'Flutter Callkit Incoming'
   s.description      = <<-DESC
