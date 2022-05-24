@@ -178,6 +178,7 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
         if(self.isFromPushKit){
             call = Call(uuid: UUID(uuidString: self.data!.uuid)!, data: data)
             self.isFromPushKit = false
+            self.sendEvent(SwiftFlutterCallkitIncomingPlugin.ACTION_CALL_ENDED, data.toJSON())
         }else {
             call = Call(uuid: UUID(uuidString: data.uuid)!, data: data)
         }
@@ -376,7 +377,9 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
             action.fail()
             return
         }
-        configurAudioSession()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1200)) {
+            self.configurAudioSession()
+        }
         self.answerCall = call
         sendEvent(SwiftFlutterCallkitIncomingPlugin.ACTION_CALL_ACCEPT, self.data?.toJSON())
         action.fulfill()
